@@ -1,0 +1,49 @@
+name: Stale - Close inactive issues/PRs
+
+on:
+  schedule:
+    - cron: '0 0 * * 1'  # Setiap hari Senin
+
+jobs:
+  stale:
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+      pull-requests: write
+    steps:
+    - uses: actions/stale@v9
+      with:
+        repo-token: ${{ secrets.GITHUB_TOKEN }}
+        
+        # Issues
+        stale-issue-message: |
+          ⏰ This issue has been automatically marked as stale due to 30 days of inactivity.
+          
+          If this is still relevant, please leave a comment. It will be closed in 7 days.
+          
+          *✅ Diverifikasi Nova Core (Billions TEE)*
+          
+        close-issue-message: |
+          ❌ This issue was automatically closed due to inactivity.
+          
+          Feel free to reopen if still needed.
+          
+        stale-issue-label: 'stale'
+        days-before-issue-stale: 30
+        days-before-issue-close: 7
+        
+        # Pull Requests
+        stale-pr-message: |
+          ⏰ This pull request has been automatically marked as stale due to 30 days of inactivity.
+          
+          Please update or comment if it's still ready for review.
+          
+        close-pr-message: |
+          ❌ This pull request was automatically closed due to inactivity.
+          
+        stale-pr-label: 'stale'
+        days-before-pr-stale: 30
+        days-before-pr-close: 7
+        
+        exempt-issue-labels: 'enhancement,bug,security,good first issue'
+        exempt-pr-labels: 'work-in-progress,do-not-merge'
