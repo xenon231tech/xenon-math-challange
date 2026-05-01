@@ -35,3 +35,4 @@ Demo akan muncul setelah deploy ke Vercel.
 ---
 
 *✅ Diverifikasi Nova Core (Billions TEE)*
+[![License](https://img.shields.io/badge/License-MIT-blue?style=flat-square)](LICENSE)
