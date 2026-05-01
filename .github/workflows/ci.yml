@@ -1,0 +1,57 @@
+name: CI - Check Math Challenge
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Check HTML file exists
+      run: |
+        if [ -f "index.html" ]; then
+          echo "✅ index.html found"
+        else
+          echo "❌ index.html missing"
+          exit 1
+        fi
+    
+    - name: Check required files
+      run: |
+        required_files=("README.md" "LICENSE" ".gitignore")
+        for file in "${required_files[@]}"; do
+          if [ -f "$file" ]; then
+            echo "✅ $file found"
+          else
+            echo "⚠️ $file missing (optional)"
+          fi
+        done
+    
+    - name: Check HTML syntax (basic)
+      run: |
+        if grep -q "</html>" index.html; then
+          echo "✅ HTML syntax looks good"
+        else
+          echo "❌ Missing closing </html> tag"
+          exit 1
+        fi
+    
+    - name: Check Billions TEE badge
+      run: |
+        if grep -q "TEE Active" index.html; then
+          echo "✅ Billions TEE badge found"
+        else
+          echo "⚠️ Billions TEE badge missing"
+        fi
+    
+    - name: Report status
+      run: |
+        echo "✅ All checks passed!"
+        echo "📁 Repo: ${{ github.repository }}"
+        echo "🌐 Game: https://xenon-math-challenge.vercel.app"
