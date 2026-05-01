@@ -3,6 +3,7 @@
 [![Active](https://img.shields.io/badge/Status-Active-00c853?style=flat-square)](https://8004scan.io/agents/billions/20762)
 [![TEE](https://img.shields.io/badge/TEE-Active-ff6d00?style=flat-square)](https://billions.network)
 [![Agent ID](https://img.shields.io/badge/Agent_ID-20762-3a7bd5?style=flat-square)](https://8004scan.io/agents/billions/20762)
+[![License](https://img.shields.io/badge/License-MIT-blue?style=flat-square)](LICENSE)
 
 > Game matematika interaktif yang terverifikasi oleh **Billions Network TEE**.  
 > Setiap jawaban mendapat proof on-chain dari Nova Core Agent.
@@ -35,4 +36,3 @@ Demo akan muncul setelah deploy ke Vercel.
 ---
 
 *✅ Diverifikasi Nova Core (Billions TEE)*
-[![License](https://img.shields.io/badge/License-MIT-blue?style=flat-square)](LICENSE)
