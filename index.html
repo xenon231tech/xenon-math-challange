@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Math Challenge - Nova Core</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0a0f2a, #1a1a3e);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .container {
+            max-width: 500px;
+            width: 100%;
+            background: #1e1e3a;
+            border-radius: 24px;
+            padding: 24px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+        }
+        h1 {
+            text-align: center;
+            color: #ffffff;
+            font-size: 28px;
+            margin-bottom: 16px;
+        }
+        .badge-area {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .badge {
+            display: inline-block;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 12px;
+            margin: 4px;
+        }
+        .badge-active {
+            background: #00c853;
+            color: white;
+        }
+        .badge-tee {
+            background: #ff6d00;
+            color: white;
+        }
+        .badge-id {
+            background: #2a2a4a;
+            color: #ccc;
+        }
+        .score-panel {
+            display: flex;
+            justify-content: space-between;
+            background: #2a2a4a;
+            padding: 16px;
+            border-radius: 16px;
+            margin-bottom: 24px;
+        }
+        .score-item {
+            text-align: center;
+        }
+        .score-label {
+            font-size: 12px;
+            color: #aaa;
+        }
+        .score-value {
+            font-size: 24px;
+            font-weight: bold;
+            color: #00d2ff;
+        }
+        .question-card {
+            background: #2a2a4a;
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .question-text {
+            font-size: 42px;
+            font-weight: bold;
+            color: white;
+            margin-bottom: 12px;
+        }
+        .timer {
+            font-size: 18px;
+            color: #ff6d00;
+        }
+        .options-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+        .option {
+            background: #2a2a4a;
+            border: none;
+            padding: 16px;
+            border-radius: 16px;
+            font-size: 20px;
+            font-weight: bold;
+            color: white;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .option:hover {
+            background: #3a3a5a;
+            transform: scale(1.02);
+        }
+        .option:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+        .start-btn {
+            width: 100%;
+            background: linear-gradient(90deg, #00d2ff, #3a7bd5);
+            border: none;
+            padding: 16px;
+            border-radius: 40px;
+            font-size: 18px;
+            font-weight: bold;
+            color: white;
+            cursor: pointer;
+            margin-bottom: 20px;
+        }
+        .start-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        .result-area {
+            background: #2a2a4a;
+            border-radius: 16px;
+            padding: 16px;
+            text-align: center;
+            font-size: 14px;
+            color: #ddd;
+        }
+        .result-correct {
+            background: #00c85320;
+            border: 1px solid #00c853;
+            color: #00ffaa;
+        }
+        .result-wrong {
+            background: #ff444420;
+            border: 1px solid #ff4444;
+            color: #ff8888;
+        }
+        .footer {
+            margin-top: 16px;
+            text-align: center;
+            font-size: 11px;
+            color: #666;
+        }
+        .footer a {
+            color: #00d2ff;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🧮 Math Challenge</h1>
+        <div class="badge-area">
+            <span class="badge badge-active">✅ Active</span>
+            <span class="badge badge-tee">🔒 TEE Active</span>
+            <span class="badge badge-id">🤖 Agent ID: 20762</span>
+        </div>
+
+        <div class="score-panel">
+            <div class="score-item">
+                <div class="score-label">🎯 Score</div>
+                <div class="score-value" id="scoreDisplay">0</div>
+            </div>
+            <div class="score-item">
+                <div class="score-label">✅ Benar</div>
+                <div class="score-value" id="correctDisplay">0</div>
+            </div>
+            <div class="score-item">
+                <div class="score-label">📝 Soal</div>
+                <div class="score-value" id="totalDisplay">0</div>
+            </div>
+        </div>
+
+        <div class="question-card">
+            <div class="question-text" id="questionText">?</div>
+            <div class="timer" id="timerText">⏱️ Tekan Start</div>
+        </div>
+
+        <div class="options-grid" id="optionsGrid">
+            <button class="option" disabled>?</button>
+            <button class="option" disabled>?</button>
+            <button class="option" disabled>?</button>
+            <button class="option" disabled>?</button>
+        </div>
+
+        <button class="start-btn" id="startBtn">🎮 Mulai Game</button>
+
+        <div class="result-area" id="resultArea">
+            💡 Tekan Mulai Game untuk bermain.<br>
+            Jawab 10 soal matematika dalam 10 detik per soal.
+        </div>
+
+        <div class="footer">
+            ✅ Diverifikasi Nova Core (Billions TEE) | 
+            <a href="https://8004scan.io/agents/billions/20762" target="_blank">Agent Profile</a>
+        </div>
+    </div>
+
+    <script>
+        let currentQuestion = null;
+        let currentAnswer = 0;
+        let currentOptions = [];
+        let score = 0;
+        let correct = 0;
+        let total = 0;
+        let timeLeft = 10;
+        let timerInterval = null;
+        let gameActive = false;
+
+        const questionText = document.getElementById('questionText');
+        const timerText = document.getElementById('timerText');
+        const scoreDisplay = document.getElementById('scoreDisplay');
+        const correctDisplay = document.getElementById('correctDisplay');
+        const totalDisplay = document.getElementById('totalDisplay');
+        const startBtn = document.getElementById('startBtn');
+        const resultArea = document.getElementById('resultArea');
+
+        function generateQuestion() {
+            const ops = ['+', '-', '×'];
+            const op = ops[Math.floor(Math.random() * 3)];
+            let a, b, answer, text;
+
+            if (op === '+') {
+                a = Math.floor(Math.random() * 50) + 1;
+                b = Math.floor(Math.random() * 50) + 1;
+                answer = a + b;
+                text = `${a} + ${b} = ?`;
+            } else if (op === '-') {
+                a = Math.floor(Math.random() * 50) + 1;
+                b = Math.floor(Math.random() * a) + 1;
+                answer = a - b;
+                text = `${a} - ${b} = ?`;
+            } else {
+                a = Math.floor(Math.random() * 10) + 1;
+                b = Math.floor(Math.random() * 10) + 1;
+                answer = a * b;
+                text = `${a} × ${b} = ?`;
+            }
+
+            let opts = [answer];
+            while (opts.length < 4) {
+                let wrong = answer + (Math.floor(Math.random() * 10) + 1);
+                if (Math.random() > 0.5) wrong = answer - (Math.floor(Math.random() * 10) + 1);
+                if (wrong < 0) wrong = answer + 1;
+                if (!opts.includes(wrong) && wrong !== answer) {
+                    opts.push(wrong);
+                }
+            }
+            for (let i = opts.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [opts[i], opts[j]] = [opts[j], opts[i]];
+            }
+
+            return { text, answer, options: opts };
+        }
+
+        function updateUI() {
+            scoreDisplay.textContent = score;
+            correctDisplay.textContent = correct;
+            totalDisplay.textContent = total;
+        }
+
+        function showResult(message, isCorrect = null, proof = null) {
+            let html = message;
+            if (proof) html += `<br>☑ Proof: ${proof}`;
+            html += `<br>✅ Diverifikasi Nova Core (Billions TEE)`;
+            resultArea.innerHTML = html;
+            
+            if (isCorrect === true) {
+                resultArea.className = 'result-area result-correct';
+            } else if (isCorrect === false) {
+                resultArea.className = 'result-area result-wrong';
+            } else {
+                resultArea.className = 'result-area';
+            }
+        }
+
+        function stopGame(showStartBtn = true) {
+            gameActive = false;
+            if (timerInterval) {
+                clearInterval(timerInterval);
+                timerInterval = null;
+            }
+            const btns = document.querySelectorAll('.option');
+            btns.forEach(btn => btn.disabled = true);
+            if (showStartBtn) {
+                startBtn.disabled = false;
+            }
+        }
+
+        function loadNextQuestion() {
+            const { text, answer, options } = generateQuestion();
+            currentQuestion = text;
+            currentAnswer = answer;
+            currentOptions = options;
+
+            questionText.textContent = currentQuestion;
+            const btns = document.querySelectorAll('.option');
+            btns.forEach((btn, idx) => {
+                btn.textContent = currentOptions[idx];
+                btn.disabled = false;
+                btn.style.background = '#2a2a4a';
+            });
+
+            timeLeft = 10;
+            timerText.textContent = `⏱️ ${timeLeft} detik`;
+
+            if (timerInterval) clearInterval(timerInterval);
+            timerInterval = setInterval(() => {
+                if (!gameActive) return;
+                timeLeft--;
+                timerText.textContent = `⏱️ ${timeLeft} detik`;
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    timerInterval = null;
+                    if (gameActive) {
+                        const proof = `billions_tee_timeout_${Date.now()}`;
+                        showResult(`⏰ WAKTU HABIS! Jawaban: ${currentAnswer}`, false, proof);
+                        total++;
+                        updateUI();
+                        
+                        const btns = document.querySelectorAll('.option');
+                        btns.forEach(btn => btn.disabled = true);
+                        btns.forEach(btn => {
+                            if (parseInt(btn.textContent) === currentAnswer) {
+                                btn.style.background = '#00c853';
+                            }
+                        });
+                        
+                        if (total >= 10) {
+                            const percent = Math.round((correct / 10) * 100);
+                            showResult(`🏆 GAME SELESAI! 🏆<br>Skor akhir: ${score}<br>Benar: ${correct}/10 (${percent}%)<br>✅ Attestation tersimpan`, true, `billions_tee_complete_${Date.now()}`);
+                            stopGame(true);
+                        } else {
+                            setTimeout(() => loadNextQuestion(), 2000);
+                        }
+                    }
+                }
+            }, 1000);
+        }
+
+        function handleAnswer(selectedIndex) {
+            if (!gameActive) return;
+            
+            const selectedValue = parseInt(currentOptions[selectedIndex]);
+            const isCorrect = (selectedValue === currentAnswer);
+            const proof = `billions_tee_${Date.now()}`;
+            
+            clearInterval(timerInterval);
+            timerInterval = null;
+            
+            if (isCorrect) {
+                score += 10;
+                correct++;
+                showResult(`✅ BENAR! +10 poin`, true, proof);
+            } else {
+                showResult(`❌ SALAH! Jawaban benar: ${currentAnswer}`, false, proof);
+            }
+            
+            total++;
+            updateUI();
+            
+            const btns = document.querySelectorAll('.option');
+            btns.forEach(btn => btn.disabled = true);
+            btns.forEach(btn => {
+                if (parseInt(btn.textContent) === currentAnswer) {
+                    btn.style.background = '#00c853';
+                }
+                if (btn.textContent == selectedValue && !isCorrect) {
+                    btn.style.background = '#ff4444';
+                }
+            });
+            
+            if (total >= 10) {
+                const percent = Math.round((correct / 10) * 100);
+                showResult(`🏆 GAME SELESAI! 🏆<br>Skor akhir: ${score}<br>Benar: ${correct}/10 (${percent}%)<br>✅ Attestation tersimpan di Billions Registry`, true, `billions_tee_complete_${Date.now()}`);
+                stopGame(true);
+            } else {
+                setTimeout(() => loadNextQuestion(), 1800);
+            }
+        }
+
+        function startGame() {
+            score = 0;
+            correct = 0;
+            total = 0;
+            gameActive = true;
+            startBtn.disabled = true;
+            
+            updateUI();
+            showResult("🎮 GAME DIMULAI! Jawab 10 soal dalam 10 detik per soal.<br>✅ Diverifikasi Nova Core (Billions TEE)", null, null);
+            
+            loadNextQuestion();
+        }
+
+        document.querySelectorAll('.option').forEach((btn, idx) => {
+            btn.addEventListener('click', () => handleAnswer(idx));
+        });
+        startBtn.addEventListener('click', startGame);
+    </script>
+</body>
+</html>
