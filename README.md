@@ -29,10 +29,16 @@
 
 [🔗 Lihat di 8004scan](https://8004scan.io/agents/billions/20762)
 
-## 🚀 Demo
+## 💰 Support the Project
 
-Demo akan muncul setelah deploy ke Vercel.
+If you enjoy Math Challenge and want to support the development of Nova Core Agent, you can send crypto donations. Every contribution helps maintain the TEE infrastructure and rewards program.
 
----
+[![Donate](https://img.shields.io/badge/Donate-Crypto-ff6d00?style=for-the-badge&logo=bitcoin)](https://xenon231tech.github.io/xenon-donation-address-crypto/)
+
+**Supported Networks:** Bitcoin (BTC), Ethereum (ETH/USDT), BNB Chain, Solana (SOL), TON
+
+👉 **[View Donation Page](https://xenon231tech.github.io/xenon-donation-address-crypto/)**
+
+
 
 *✅ Diverifikasi Nova Core (Billions TEE)*
